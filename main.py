@@ -62,6 +62,12 @@ print(f"NovaIndustrias valido: {NovaIndustriasValido}")
 TechPartsValido = reporteVaLido(df_TechParts, "TechParts")
 print(f"TechParts valido: {TechPartsValido}")
 
+#Va a dar false porque es el reporte con errores
+compra_error_Valido = reporteVaLido(df_compra_con_error, "ACME Supplies")
+print(f"ACME Supplies validacion: {compra_error_Valido}")
+
+
+
 
 
 
