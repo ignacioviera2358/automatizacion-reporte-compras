@@ -22,6 +22,8 @@ NovaIndustriasValido = False
 TechPartsValido = False
 compra_error_Valido = False
 
+dataFrames = []
+
 
 def reporteVaLido(reporte, nombre_proveedor):
     for index, fila in reporte.iterrows(): 
@@ -33,7 +35,7 @@ def reporteVaLido(reporte, nombre_proveedor):
         precio_total = fila["PrecioTotal"]
 
         try: 
-            pd.to_datetime(fecha, dayfirst=True)
+            pd.to_datetime(fecha, dayfirst=True, errors="raise")
             # Se usa .strip() para eliminar espacios al inicio y final del nombre del proveedor
             if (proveedor.strip() == nombre_proveedor) and (isinstance(producto, str)) and (isinstance(cantidad, int)) and (isinstance(precio_unitario, (int, float))) and (precio_unitario > 0) and (isinstance(precio_total, (int, float))) and (precio_total > 0):
                 continue  # Esta fila es válida, continúa con la siguiente
@@ -45,34 +47,20 @@ def reporteVaLido(reporte, nombre_proveedor):
             print("ARCHIVO NO VALIDO.")
             return False  # Si hay error en fecha, retorna False
     
+    dataFrames.append(reporte)
     return True  # Si todas las filas son válidas, retorna True
 
 
 
 #Validacion de reportes
 LogiMaxValido = reporteVaLido(df_LogiMax, "LogiMax")
-print(f"LogiMax valido: {LogiMaxValido}")
-
 MegaToolsValido = reporteVaLido(df_MegaTools, "MegaTools")
-print(f"MegaTools valido: {MegaToolsValido}")
-
 NovaIndustriasValido = reporteVaLido(df_NovaIndustrias , "NovaIndustrias")
-print(f"NovaIndustrias valido: {NovaIndustriasValido}")
-
 TechPartsValido = reporteVaLido(df_TechParts, "TechParts")
-print(f"TechParts valido: {TechPartsValido}")
 
 #Va a dar false porque es el reporte con errores
 compra_error_Valido = reporteVaLido(df_compra_con_error, "ACME Supplies")
-print(f"ACME Supplies validacion: {compra_error_Valido}")
 
 
-
-
-
-
-        
-        
-
-    
-
+df_final = pd.concat(dataFrames, ignore_index=True)
+df_final.to_excel("reporte_final.xlsx", index=False)
