@@ -53,7 +53,7 @@ def reporteVaLido(reporte, nombre_proveedor):
 
         try: 
             fecha_validada = pd.to_datetime(fecha, dayfirst=True, errors="raise")
-            fecha_str = fecha_validada.strftime('%Y-%m-%d')  # Convertir a string
+            fecha_str = fecha_validada.strftime('%Y-%m-%d')  # Convertir la fecha de date time a string 
             # Se usa .strip() para eliminar espacios al inicio y final del nombre del proveedor
             if (proveedor.strip() == nombre_proveedor) and (isinstance(producto, str)) and (isinstance(cantidad, int)) and (isinstance(precio_unitario, (int, float))) and (precio_unitario > 0) and (isinstance(precio_total, (int, float))) and (precio_total > 0):
                 cursor.execute("""
